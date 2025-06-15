@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini-jeu : 1900s</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .quiz-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+        }
+
+        .question {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .options button {
+            background-color: #facc15;
+            border: none;
+            color: #1f2937;
+            padding: 0.8rem 1.5rem;
+            margin: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .options button:hover {
+                background-color: #eab308;
+            }
+
+        .result {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Mini-jeu : 1900s</h1>
+        <div class="question">Quelle voiture a démocratisé l'automobile au début du 20e siècle ?</div>
+        <div class="options">
+            <button onclick="checkAnswer(this, false)">A) Dodge Charger</button>
+            <button onclick="checkAnswer(this, true)">B) Ford Model T</button>
+            <button onclick="checkAnswer(this, false)">C) Cadillac Eldorado</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>function checkAnswer(button, correct) {
+      const result = document.getElementById('result');
+      if (correct) {
+        result.textContent = 'Bonne r\u00e9ponse ! Ford a r\u00e9volutionn\u00e9 la mobilit\u00e9.';
+        result.style.color = '#34d399';
+      } else {
+        result.textContent = 'Mauvaise r\u00e9ponse. Essayez encore !';
+        result.style.color = '#f87171';
+      }
+    }</script>
+</body>
+</html>
