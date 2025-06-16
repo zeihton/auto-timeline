@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Explore the 1900s - American Auto Industry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(to right, #1e3a8a, #3b82f6);
+            color: white;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        }
+
+            .section img {
+                max-width: 100%;
+                border-radius: 10px;
+                margin-top: 1rem;
+            }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+
+            .video-container iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+        }
+
+        a.back {
+            display: inline-block;
+            margin-top: 1rem;
+            background: #facc15;
+            color: #1f2937;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+            a.back:hover {
+                background: #eab308;
+            }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Discover the 1900s</h1>
+        <p>The birth of mass mobility in the United States</p>
+    </header>
+
+    <div class="section">
+        <h2>Ford Model T: The Game Changer</h2>
+        <p>
+            Introduced in 1908, the Ford Model T revolutionized transportation. It was affordable, reliable, and built on the first moving assembly line — making it accessible to the middle class.
+        </p>
+        <img src="images/ford-model-t.jpg" alt="Ford Model T">
+    </div>
+
+    <div class="section">
+        <h2>Life in the 1900s</h2>
+        <p>
+            Roads were rough, most were unpaved, and gas stations were nearly non-existent. Yet, the arrival of the automobile started to transform American society, giving people a new kind of freedom and sparking major infrastructure development.
+        </p>
+        <img src="images/road-1900s.jpg" alt="1900s Roads">
+    </div>
+
+    <div class="section">
+        <h2>Watch: The Car That Changed the World</h2>
+        <p>This short documentary (in English) explains how Ford revolutionized the way people lived and worked.</p>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/S4KrIMZpwCY" title="YouTube video on Ford Model T" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <footer>
+        <a class="back" href="debut.html">← Back to Main Page</a>
+        <p>© 2025 Auto Timeline</p>
+    </footer>
+
+</body>
+</html>
