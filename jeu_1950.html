@@ -1,11 +1,128 @@
 ﻿<!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1950s Car Game</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            background: #f8f4ec;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .game-instructions {
+            background: #fff8dc;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .car-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .car-card {
+            background: white;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 200px;
+            cursor: pointer;
+            transition: transform 0.2s, border 0.2s;
+        }
+
+            .car-card:hover {
+                transform: scale(1.03);
+                border-color: #444;
+            }
+
+            .car-card img {
+                width: 100%;
+                border-radius: 12px 12px 0 0;
+            }
+
+        .feedback {
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            color: green;
+        }
+
+            .feedback.wrong {
+                color: red;
+            }
+
+        .btn-next {
+            display: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+            .btn-next:hover {
+                background-color: #3e8e41;
+            }
+    </style>
 </head>
 <body>
+    <h1>🎮 Spot the Fake: Années 1950</h1>
+    <div class="game-instructions">
+        <p>Une des voitures ci-dessous n'est pas des années 1950. Saurez-vous repérer l'intrus ?</p>
+    </div>
 
+    <div class="car-grid">
+        <div class="car-card" onclick="checkAnswer(this, false)">
+            <img src="images/car_50s_1.png" alt="Car 50s 1">
+        </div>
+        <div class="car-card" onclick="checkAnswer(this, false)">
+            <img src="images/car_50s_2.png" alt="Car 50s 2">
+        </div>
+        <div class="car-card" onclick="checkAnswer(this, true)">
+            <img src="images/car_wrong_80s.png" alt="Car 80s intruder">
+        </div>
+        <div class="car-card" onclick="checkAnswer(this, false)">
+            <img src="images/car_50s_3.png" alt="Car 50s 3">
+        </div>
+    </div>
+
+    <div class="feedback" id="feedback"></div>
+
+    <button class="btn-next" id="nextButton" onclick="window.location.href='explore-1950.html'">
+        Continuer vers l'exploration
+    </button>
+
+    <script>let hasGuessed = false;
+
+    function checkAnswer(card, isIntruder) {
+      if (hasGuessed) return;
+      hasGuessed = true;
+
+      const feedback = document.getElementById('feedback');
+
+      if (isIntruder) {
+        feedback.textContent = "✅ Bien vu ! Cette voiture est des années 80, reconnaissable à sa forme carrée.";
+        document.getElementById('nextButton').style.display = 'inline-block';
+      } else {
+        feedback.textContent = "❌ Mauvaise réponse. Essayez encore.";
+        feedback.classList.add('wrong');
+        setTimeout(() => location.reload(), 1500);
+      }
+    }</script>
 </body>
 </html>
