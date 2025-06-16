@@ -22,9 +22,9 @@
             background: rgba(0, 0, 0, 0.7);
             padding: 2rem;
             border-radius: 12px;
-            max-width: 700px;
+            max-width: 600px;
             text-align: center;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
 
         h1 {
@@ -32,70 +32,74 @@
         }
 
         .instruction {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
         }
 
-        .drop-zone {
-            border: 2px dashed white;
-            padding: 2rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            min-height: 150px;
-        }
-
-        .draggables {
+        .items {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
-            margin-top: 1rem;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
         }
 
         .item {
             background-color: #facc15;
             color: #1f2937;
-            padding: 0.5rem 1rem;
+            padding: 0.7rem 1rem;
             border-radius: 8px;
-            cursor: grab;
-            user-select: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
         }
 
-        .result {
+            .item:hover {
+                background-color: #eab308;
+            }
+
+        .box {
+            border: 2px dashed #f3f4f6;
+            padding: 1rem;
+            border-radius: 8px;
+            min-height: 100px;
+            margin-bottom: 1rem;
+        }
+
+        .box-item {
+            margin: 0.3rem 0;
+        }
+
+        .message {
             margin-top: 1rem;
             font-weight: bold;
         }
 
-        .explore-link {
+        .explore-link, .restart-button {
             margin-top: 1.5rem;
             display: none;
         }
 
-            .explore-link a {
+            .explore-link a, .restart-button button {
                 background: #10b981;
                 color: white;
                 padding: 0.7rem 1.2rem;
                 border-radius: 8px;
                 text-decoration: none;
                 font-weight: bold;
+                border: none;
+                cursor: pointer;
             }
 
-                .explore-link a:hover {
-                    background: #059669;
-                }
+            .restart-button button {
+                background: #ef4444;
+            }
 
-        .restart-btn {
-            margin-top: 1rem;
-            display: none;
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+            .explore-link a:hover {
+                background: #059669;
+            }
 
-            .restart-btn:hover {
+            .restart-button button:hover {
                 background: #dc2626;
             }
     </style>
@@ -103,23 +107,28 @@
 <body>
     <div class="game-container">
         <h1>Mini-Game: 1990s</h1>
-        <div class="instruction">Drag and drop all the 1990s car innovations into the box. One mistake, and you'll restart!<br /> (Hint: only 3 items)</div>
+        <div class="instruction">Select the three technologies that defined 1990s car innovation.</div>
 
-        <div class="drop-zone" id="drop-zone" ondragover="allowDrop(event)" ondrop="handleDrop(event)">
-            Drop items here
+        <div class="items" id="items">
+            <div class="item" onclick="selectItem(this, 'Airbag', true)">Airbag</div>
+            <div class="item" onclick="selectItem(this, 'Horse Carriage', false)">Horse Carriage</div>
+            <div class="item" onclick="selectItem(this, 'Hybrid Car', true)">Hybrid Car</div>
+            <div class="item" onclick="selectItem(this, 'Steam Engine', false)">Steam Engine</div>
+            <div class="item" onclick="selectItem(this, 'Hand-crank Starter', false)">Hand-crank Starter</div>
+            <div class="item" onclick="selectItem(this, 'Vinyl Radio', false)">Vinyl Radio</div>
+            <div class="item" onclick="selectItem(this, 'GPS', true)">GPS</div>
         </div>
 
-        <div class="draggables" id="draggables">
-            <div class="item" draggable="true" id="airbag" ondragstart="drag(event)">Airbag</div>
-            <div class="item" draggable="true" id="crank" ondragstart="drag(event)">Manual Crank</div> 
-            <div class="item" draggable="true" id="steam" ondragstart="drag(event)">Steam Engine</div>
-            <div class="item" draggable="true" id="hybrid" ondragstart="drag(event)">Hybrid Engine</div>
-            <div class="item" draggable="true" id="gps" ondragstart="drag(event)">GPS</div>
-            <div class="item" draggable="true" id="carburetor" ondragstart="drag(event)">Carburetor</div>
+        <div class="box" id="box">
+            <strong>Drop zone:</strong>
+            <div id="box-items"></div>
         </div>
 
-        <div class="result" id="result"></div>
-        <button class="restart-btn" id="restart-btn" onclick="restartGame()">Restart the game</button>
+        <div class="message" id="message"></div>
+
+        <div class="restart-button" id="restart-button">
+            <button onclick="restartGame()">Wrong choice. Restart the game</button>
+        </div>
 
         <div class="explore-link" id="explore-link">
             <a href="1990s-explore.html">Explore the 1990s era</a>
@@ -127,66 +136,46 @@
     </div>
 
     <script>
-        const correctItems = ["airbag", "gps", "hybrid"];
-        const droppedItems = new Set();
+        const correctItems = ["Airbag", "GPS", "Hybrid Car"];
+        let selectedItems = [];
 
-        function allowDrop(event) {
-            event.preventDefault();
-        }
+        function selectItem(element, name, isCorrect) {
+            if (selectedItems.includes(name)) return;
 
-        function drag(event) {
-            event.dataTransfer.setData("text", event.target.id);
-        }
-
-        function handleDrop(event) {
-            event.preventDefault();
-            const data = event.dataTransfer.getData("text");
-            const result = document.getElementById('result');
-            const dropZone = document.getElementById('drop-zone');
-            const item = document.getElementById(data);
-
-            if (!item) return;
-
-            // Remove item from source
-            item.parentNode.removeChild(item);
-
-            // Clone and add to drop zone
-            const clone = item.cloneNode(true);
-            clone.setAttribute("draggable", "false");
-            dropZone.appendChild(clone);
-
-            if (!correctItems.includes(data)) {
-                result.textContent = "Wrong item! Restart the game.";
-                result.style.color = "#f87171";
-                document.getElementById("restart-btn").style.display = "inline-block";
+            if (!isCorrect) {
+                document.getElementById("message").textContent = "Incorrect item selected!";
+                document.getElementById("message").style.color = "#f87171";
+                document.getElementById("restart-button").style.display = "block";
                 document.getElementById("explore-link").style.display = "none";
-            } else {
-                droppedItems.add(data);
-                result.textContent = "";
-                document.getElementById("restart-btn").style.display = "none";
+                return;
+            }
 
-                if (droppedItems.size === correctItems.length) {
-                    result.textContent = "Well done! All innovations placed correctly.";
-                    result.style.color = "#34d399";
-                    document.getElementById("explore-link").style.display = "block";
-                }
+            selectedItems.push(name);
+            element.style.display = "none";
+            const box = document.getElementById("box-items");
+            const item = document.createElement("div");
+            item.className = "box-item";
+            item.textContent = name;
+            box.appendChild(item);
+
+            if (selectedItems.length === correctItems.length) {
+                document.getElementById("message").textContent = "Great! You found all the correct innovations!";
+                document.getElementById("message").style.color = "#34d399";
+                document.getElementById("explore-link").style.display = "block";
             }
         }
 
         function restartGame() {
-            droppedItems.clear();
-            document.getElementById("drop-zone").innerHTML = "Drop items here";
-            document.getElementById("draggables").innerHTML = `
-            <div class="item" draggable="true" id="airbag" ondragstart="drag(event)">Airbag</div>
-            <div class="item" draggable="true" id="crank" ondragstart="drag(event)">Manual Crank</div>
-            <div class="item" draggable="true" id="steam" ondragstart="drag(event)">Steam Engine</div>
-            <div class="item" draggable="true" id="hybrid" ondragstart="drag(event)">Hybrid Engine</div>
-            <div class="item" draggable="true" id="gps" ondragstart="drag(event)">GPS</div>
-            <div class="item" draggable="true" id="carburetor" ondragstart="drag(event)">Carburetor</div>
-          `;
-            document.getElementById("result").textContent = "";
-            document.getElementById("restart-btn").style.display = "none";
+            selectedItems = [];
+            document.getElementById("box-items").innerHTML = "";
+            document.getElementById("message").textContent = "";
+            document.getElementById("restart-button").style.display = "none";
             document.getElementById("explore-link").style.display = "none";
+
+            const itemsContainer = document.getElementById("items");
+            Array.from(itemsContainer.children).forEach(item => {
+                item.style.display = "inline-block";
+            });
         }
     </script>
 </body>
