@@ -1,11 +1,193 @@
 ﻿<!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini-Game: 1990s</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .game-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 700px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+        }
+
+        .instruction {
+            margin-bottom: 1.5rem;
+        }
+
+        .drop-zone {
+            border: 2px dashed white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            min-height: 150px;
+        }
+
+        .draggables {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .item {
+            background-color: #facc15;
+            color: #1f2937;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: grab;
+            user-select: none;
+        }
+
+        .result {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        .explore-link {
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+            .explore-link a {
+                background: #10b981;
+                color: white;
+                padding: 0.7rem 1.2rem;
+                border-radius: 8px;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+                .explore-link a:hover {
+                    background: #059669;
+                }
+
+        .restart-btn {
+            margin-top: 1rem;
+            display: none;
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+            .restart-btn:hover {
+                background: #dc2626;
+            }
+    </style>
 </head>
 <body>
+    <div class="game-container">
+        <h1>Mini-Game: 1990s</h1>
+        <div class="instruction">Drag and drop all the 1990s car innovations into the box. One mistake, and you'll restart!<br /> (Hint: only 3 items)</div>
 
+        <div class="drop-zone" id="drop-zone" ondragover="allowDrop(event)" ondrop="handleDrop(event)">
+            Drop items here
+        </div>
+
+        <div class="draggables" id="draggables">
+            <div class="item" draggable="true" id="airbag" ondragstart="drag(event)">Airbag</div>
+            <div class="item" draggable="true" id="crank" ondragstart="drag(event)">Manual Crank</div> 
+            <div class="item" draggable="true" id="steam" ondragstart="drag(event)">Steam Engine</div>
+            <div class="item" draggable="true" id="hybrid" ondragstart="drag(event)">Hybrid Engine</div>
+            <div class="item" draggable="true" id="gps" ondragstart="drag(event)">GPS</div>
+            <div class="item" draggable="true" id="carburetor" ondragstart="drag(event)">Carburetor</div>
+        </div>
+
+        <div class="result" id="result"></div>
+        <button class="restart-btn" id="restart-btn" onclick="restartGame()">Restart the game</button>
+
+        <div class="explore-link" id="explore-link">
+            <a href="1990s-explore.html">Explore the 1990s era</a>
+        </div>
+    </div>
+
+    <script>
+        const correctItems = ["airbag", "gps", "hybrid"];
+        const droppedItems = new Set();
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drag(event) {
+            event.dataTransfer.setData("text", event.target.id);
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            const data = event.dataTransfer.getData("text");
+            const result = document.getElementById('result');
+            const dropZone = document.getElementById('drop-zone');
+            const item = document.getElementById(data);
+
+            if (!item) return;
+
+            // Remove item from source
+            item.parentNode.removeChild(item);
+
+            // Clone and add to drop zone
+            const clone = item.cloneNode(true);
+            clone.setAttribute("draggable", "false");
+            dropZone.appendChild(clone);
+
+            if (!correctItems.includes(data)) {
+                result.textContent = "Wrong item! Restart the game.";
+                result.style.color = "#f87171";
+                document.getElementById("restart-btn").style.display = "inline-block";
+                document.getElementById("explore-link").style.display = "none";
+            } else {
+                droppedItems.add(data);
+                result.textContent = "";
+                document.getElementById("restart-btn").style.display = "none";
+
+                if (droppedItems.size === correctItems.length) {
+                    result.textContent = "Well done! All innovations placed correctly.";
+                    result.style.color = "#34d399";
+                    document.getElementById("explore-link").style.display = "block";
+                }
+            }
+        }
+
+        function restartGame() {
+            droppedItems.clear();
+            document.getElementById("drop-zone").innerHTML = "Drop items here";
+            document.getElementById("draggables").innerHTML = `
+            <div class="item" draggable="true" id="airbag" ondragstart="drag(event)">Airbag</div>
+            <div class="item" draggable="true" id="crank" ondragstart="drag(event)">Manual Crank</div>
+            <div class="item" draggable="true" id="steam" ondragstart="drag(event)">Steam Engine</div>
+            <div class="item" draggable="true" id="hybrid" ondragstart="drag(event)">Hybrid Engine</div>
+            <div class="item" draggable="true" id="gps" ondragstart="drag(event)">GPS</div>
+            <div class="item" draggable="true" id="carburetor" ondragstart="drag(event)">Carburetor</div>
+          `;
+            document.getElementById("result").textContent = "";
+            document.getElementById("restart-btn").style.display = "none";
+            document.getElementById("explore-link").style.display = "none";
+        }
+    </script>
 </body>
 </html>
