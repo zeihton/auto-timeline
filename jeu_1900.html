@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mini-jeu : 1900s</title>
+    <title>Mini-Game: 1900s</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -59,8 +59,8 @@
 </head>
 <body>
     <div class="quiz-container">
-        <h1>Mini-jeu : 1900s</h1>
-        <div class="question">Quelle voiture a démocratisé l'automobile au début du 20e siècle ?</div>
+        <h1>Mini-Game: 1900s</h1>
+        <div class="question">Which car made automobiles accessible to the public in the early 20th century?</div>
         <div class="options">
             <button onclick="checkAnswer(this, false)">A) Dodge Charger</button>
             <button onclick="checkAnswer(this, true)">B) Ford Model T</button>
@@ -69,15 +69,17 @@
         <div class="result" id="result"></div>
     </div>
 
-    <script>function checkAnswer(button, correct) {
-      const result = document.getElementById('result');
-      if (correct) {
-        result.textContent = 'Bonne r\u00e9ponse ! Ford a r\u00e9volutionn\u00e9 la mobilit\u00e9.';
-        result.style.color = '#34d399';
-      } else {
-        result.textContent = 'Mauvaise r\u00e9ponse. Essayez encore !';
-        result.style.color = '#f87171';
-      }
-    }</script>
+    <script>
+        function checkAnswer(button, correct) {
+            const result = document.getElementById('result');
+            if (correct) {
+                result.textContent = 'Correct! Ford revolutionized mobility.';
+                result.style.color = '#34d399';
+            } else {
+                result.textContent = 'Wrong answer. Try again!';
+                result.style.color = '#f87171';
+            }
+        }
+    </script>
 </body>
 </html>

@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Timeline automobile</title>
+    <title>Automobile Timeline</title>
     <style>
         body {
             margin: 0;
@@ -151,8 +151,8 @@
 </head>
 <body>
     <div class="header">
-        <h1>Timeline de l'industrie automobile américaine</h1>
-        <p>Explorez les grandes périodes et découvrez les secrets de cette industrie légendaire.</p>
+        <h1>American Automotive Industry Timeline</h1>
+        <p>Explore the major eras and uncover the secrets of this legendary industry.</p>
     </div>
 
     <div class="timeline">
@@ -160,43 +160,45 @@
         <br /><br /><br /><br /><br />
         <div class="timeline-item left" onclick="openModal('modal1900')">
             <img src="images/ford-model-t.jpg" alt="Ford T">
-            <h3>Les débuts</h3>
-            <p>Naissance de l’automobile de masse avec Ford.</p>
+            <h3>The Beginning</h3>
+            <p>Birth of mass-produced cars with Ford.</p>
         </div>
 
         <div class="line-connector right"><span>1950s</span></div>
         <br /><br /><br /><br /><br />
         <div class="timeline-item right" onclick="openModal('modal1950')">
             <img src="images/chevrolet-belair.jpg" alt="Bel Air">
-            <h3>Âge d'or</h3>
-            <p>Design iconique et explosion de la culture automobile.</p>
+            <h3>Golden Age</h3>
+            <p>Iconic designs and the rise of car culture.</p>
         </div>
     </div>
 
-    <!-- Modale exemple pour les 1900s -->
+    <!-- Example modal for the 1900s -->
     <div id="modal1900" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('modal1900')">&times;</span>
-            <h2>Les années 1900s</h2>
-            <p><strong>Économie :</strong> Début de la production de masse avec Ford, révolution industrielle en marche.</p>
-            <p><strong>Infrastructures :</strong> Premiers réseaux routiers, principalement urbains.</p>
-            <p><strong>Familles :</strong> L'automobile reste un luxe, mais change déjà la mobilité.</p>
-            <p><strong>Environnement :</strong> Impacts encore faibles mais croissance future importante.</p>
+            <h2>The 1900s</h2>
+            <p><strong>Economy:</strong> Start of mass production with Ford, industrial revolution underway.</p>
+            <p><strong>Infrastructure:</strong> First road networks, mainly in cities.</p>
+            <p><strong>Families:</strong> Cars still a luxury, but already changing mobility.</p>
+            <p><strong>Environment:</strong> Low impact at the time but growing rapidly.</p>
             <hr>
-            <img src="images/qr_jeu_1900.png" alt="QR code vers le jeu" style="width:150px; margin-top:1rem;">
+            <img src="images/qr_jeu_1900.png" alt="QR code to the game" style="width:150px; margin-top:1rem;">
             <p>
                 <a href="https://zeihton.github.io/auto-timeline/jeu_1900.html" target="_blank" style="color: #facc15;">
-                    Accédez au jeu en ligne
+                    Access the online game
                 </a>
             </p>
         </div>
     </div>
 
-    <script>function openModal(id) {
-        document.getElementById(id).style.display = 'block';
-    }
-    function closeModal(id) {
-        document.getElementById(id).style.display = 'none';
-    }</script>
+    <script>
+        function openModal(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+    </script>
 </body>
 </html>
