@@ -3,126 +3,114 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>1950s Car Game</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Mini-Game: 1950s</title>
     <style>
         body {
-            background: #f8f4ec;
             font-family: Arial, sans-serif;
-            text-align: center;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .quiz-container {
+            background: rgba(0, 0, 0, 0.7);
             padding: 2rem;
+            border-radius: 12px;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
 
         h1 {
-            font-size: 2rem;
             margin-bottom: 1rem;
         }
 
-        .game-instructions {
-            background: #fff8dc;
-            padding: 1rem;
-            margin-bottom: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        .car-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .car-card {
-            background: white;
-            border: 2px solid transparent;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            width: 200px;
-            cursor: pointer;
-            transition: transform 0.2s, border 0.2s;
-        }
-
-            .car-card:hover {
-                transform: scale(1.03);
-                border-color: #444;
-            }
-
-            .car-card img {
-                width: 100%;
-                border-radius: 12px 12px 0 0;
-            }
-
-        .feedback {
+        .question {
+            margin-bottom: 1rem;
             font-size: 1.2rem;
-            margin: 1rem 0;
-            color: green;
         }
 
-            .feedback.wrong {
-                color: red;
+        .images-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+            .images-grid img {
+                width: 100%;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: transform 0.2s ease;
+                border: 3px solid transparent;
             }
 
-        .btn-next {
+                .images-grid img:hover {
+                    transform: scale(1.05);
+                    border-color: #facc15;
+                }
+
+        .result {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        .explore-link {
+            margin-top: 1.5rem;
             display: none;
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
         }
 
-            .btn-next:hover {
-                background-color: #3e8e41;
+            .explore-link a {
+                background: #10b981;
+                color: white;
+                padding: 0.7rem 1.2rem;
+                border-radius: 8px;
+                text-decoration: none;
+                font-weight: bold;
             }
+
+                .explore-link a:hover {
+                    background: #059669;
+                }
     </style>
 </head>
 <body>
-    <h1>🎮 Spot the Fake: Années 1950</h1>
-    <div class="game-instructions">
-        <p>Une des voitures ci-dessous n'est pas des années 1950. Saurez-vous repérer l'intrus ?</p>
-    </div>
+    <div class="quiz-container">
+        <h1>Mini-Game: 1950s</h1>
+        <div class="question">One of these cars does <strong>not</strong> belong to the 1950s. Can you find it?</div>
+        <div class="images-grid">
+            <img src="car_50s_1.png" alt="Car 1" onclick="checkAnswer(this, false)">
+            <img src="car_50s_2.png" alt="Car 2" onclick="checkAnswer(this, false)">
+            <img src="car_wrong_80s.png" alt="Car 3" onclick="checkAnswer(this, true)">
+            <img src="car_50s_3.png" alt="Car 4" onclick="checkAnswer(this, false)">
 
-    <div class="car-grid">
-        <div class="car-card" onclick="checkAnswer(this, false)">
-            <img src="images/car_50s_1.png" alt="Car 50s 1">
         </div>
-        <div class="car-card" onclick="checkAnswer(this, false)">
-            <img src="images/car_50s_2.png" alt="Car 50s 2">
-        </div>
-        <div class="car-card" onclick="checkAnswer(this, true)">
-            <img src="images/car_wrong_80s.png" alt="Car 80s intruder">
-        </div>
-        <div class="car-card" onclick="checkAnswer(this, false)">
-            <img src="images/car_50s_3.png" alt="Car 50s 3">
+        <div class="result" id="result"></div>
+        <div class="explore-link" id="explore-link">
+            <a href="1950s-explore.html">Explore the 1950s era</a>
         </div>
     </div>
 
-    <div class="feedback" id="feedback"></div>
-
-    <button class="btn-next" id="nextButton" onclick="window.location.href='explore-1950.html'">
-        Continuer vers l'exploration
-    </button>
-
-    <script>let hasGuessed = false;
-
-    function checkAnswer(card, isIntruder) {
-      if (hasGuessed) return;
-      hasGuessed = true;
-
-      const feedback = document.getElementById('feedback');
-
-      if (isIntruder) {
-        feedback.textContent = "✅ Bien vu ! Cette voiture est des années 80, reconnaissable à sa forme carrée.";
-        document.getElementById('nextButton').style.display = 'inline-block';
-      } else {
-        feedback.textContent = "❌ Mauvaise réponse. Essayez encore.";
-        feedback.classList.add('wrong');
-        setTimeout(() => location.reload(), 1500);
-      }
-    }</script>
+    <script>
+        function checkAnswer(img, correct) {
+            const result = document.getElementById('result');
+            const link = document.getElementById('explore-link');
+            if (correct) {
+                result.textContent = 'Correct! That car is way too modern.';
+                result.style.color = '#34d399';
+                link.style.display = 'block';
+            } else {
+                result.textContent = 'Nope, that one is from the 1950s!';
+                result.style.color = '#f87171';
+                link.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
