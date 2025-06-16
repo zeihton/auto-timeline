@@ -55,6 +55,24 @@
             margin-top: 1rem;
             font-weight: bold;
         }
+
+        .explore-link {
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+            .explore-link a {
+                background: #10b981;
+                color: white;
+                padding: 0.7rem 1.2rem;
+                border-radius: 8px;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+                .explore-link a:hover {
+                    background: #059669;
+                }
     </style>
 </head>
 <body>
@@ -67,17 +85,23 @@
             <button onclick="checkAnswer(this, false)">C) Cadillac Eldorado</button>
         </div>
         <div class="result" id="result"></div>
+        <div class="explore-link" id="explore-link">
+            <a href="1900s-explore.html">Explore the 1900s era</a>
+        </div>
     </div>
 
     <script>
         function checkAnswer(button, correct) {
             const result = document.getElementById('result');
+            const link = document.getElementById('explore-link');
             if (correct) {
                 result.textContent = 'Correct! Ford revolutionized mobility.';
                 result.style.color = '#34d399';
+                link.style.display = 'block';
             } else {
                 result.textContent = 'Wrong answer. Try again!';
                 result.style.color = '#f87171';
+                link.style.display = 'none';
             }
         }
     </script>
