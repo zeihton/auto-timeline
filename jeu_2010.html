@@ -1,11 +1,182 @@
 ﻿<!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini-Game: 2010s</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .game-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+            .card-grid img {
+            width: 60%;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 4px solid transparent;
+            transition: border 0.3s ease;
+            }
+
+        .card-grid img.selected {
+            border: 4px solid #facc15;
+        }
+
+        .card {
+            background-color: #facc15;
+            color:#000;
+            padding: 1rem;
+            margin: 0.5rem;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            flex: 1 1 calc(45% - 1rem);
+            transition: all 0.3s ease;
+        }
+
+        
+
+
+            .card.disabled {
+                pointer-events: none;
+            }
+
+        .good-choice {
+            background-color: transparent;
+            color: #34d399;
+            font-weight: bold;
+            text-align: center;
+            padding: 1rem;
+            margin: 0.5rem;
+            flex: 1 1 calc(45% - 1rem);
+            border: 2px dashed #34d399;
+            border-radius: 10px;
+        }
+
+        .result {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        .explore-link, .restart-link {
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+            .explore-link a, .restart-link button {
+                background: #10b981;
+                color: white;
+                padding: 0.7rem 1.2rem;
+                border-radius: 8px;
+                text-decoration: none;
+                font-weight: bold;
+                border: none;
+                cursor: pointer;
+            }
+
+            .restart-link button {
+                background: #ef4444;
+            }
+
+            .explore-link a:hover {
+                background: #059669;
+            }
+
+            .restart-link button:hover {
+                background: #dc2626;
+            }
+    </style>
 </head>
 <body>
+    <div class="game-container">
+        <h1>Mini-Game: 2010s</h1>
+        <p>Select all cars or tech related to the green revolution of the 2010s!</p>
+        <div class="card-grid" id="card-grid">
+            <div class="card" data-label="Lead-acid Battery" onclick="checkCard(this, false)"><img src="images/battery.png" alt="Chassis" /><br />Lead-acid Battery</div>
+            <div class="card" data-label="Tesla Model S" onclick="checkCard(this, true)"><img src="images/tesla.png" alt="Chassis" /><br />Tesla Model S</div>
+            <div class="card" data-label="Charging Station" onclick="checkCard(this, true)"><img src="images/station.png" alt="Chassis" /><br />Charging Station</div>
+            <div class="card" data-label="Hummer H2" onclick="checkCard(this, false)"><img src="images/hummer.png" alt="Chassis" /><br />Hummer H2</div>
+            <div class="card" data-label="Diesel Truck" onclick="checkCard(this, false)"><img src="images/truck.png" alt="Chassis" /><br />Diesel Truck</div>
+            <div class="card" data-label="Toyota Prius Plug-in" onclick="checkCard(this, true)"><img src="images/toyota.png" alt="Chassis" /><br />Toyota Prius Plug-in</div>
+            <div class="card" data-label="V8 Engine" onclick="checkCard(this, false)"><img src="images/V8.png" alt="Chassis" /><br />V8 Engine</div>
+            <div class="card" data-label="Eco Mode" onclick="checkCard(this, true)"><img src="images/eco.png" alt="Chassis" /><br />Eco Mode</div>
+        </div>
+        <div class="result" id="result"></div>
+        <div class="restart-link" id="restart-link">
+            <button onclick="restartGame()">Wrong choice. Restart Game</button>
+        </div>
+        <div class="explore-link" id="explore-link">
+            <a href="2010s-explore.html">Explore the 2010s era</a>
+        </div>
+    </div>
 
+    <script>
+        let correctCount = 0;
+        const neededCorrect = 4;
+
+        function checkCard(card, isCorrect) {
+            if (card.classList.contains('disabled')) return;
+
+            card.classList.add('disabled');
+
+            if (isCorrect) {
+                const goodDiv = document.createElement('div');
+                goodDiv.className = 'good-choice';
+                goodDiv.textContent = 'Good choice!';
+                card.replaceWith(goodDiv);
+                correctCount++;
+
+                if (correctCount >= neededCorrect) {
+                    document.getElementById('result').textContent = 'Great! You selected the green options!';
+                    document.getElementById('result').style.color = '#34d399';
+                    document.getElementById('explore-link').style.display = 'block';
+                }
+            } else {
+                card.remove();
+                document.getElementById('result').textContent = 'Oops! That wasn\'t a green innovation.';
+                document.getElementById('result').style.color = '#f87171';
+                document.getElementById('restart-link').style.display = 'block';
+                disableAllCards();
+            }
+        }
+
+        function disableAllCards() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => card.classList.add('disabled'));
+        }
+
+        function restartGame() {
+            location.reload();
+        }
+    </script>
 </body>
 </html>
